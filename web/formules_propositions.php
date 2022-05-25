@@ -1,4 +1,6 @@
-<html>
+<!DOCTYPE html>
+
+<html lang=en>
  <head>
     <title>formules_proposition</title>
     <script type="text/javascript" src="formules_proposition.js"></script>

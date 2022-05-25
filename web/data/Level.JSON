@@ -1,20 +1,17 @@
 {
-  "tournoi": [
-    {
-      "idevent": 3,
-      "nomTournoi": "litleCup"
-    }
-  ],
+  "tournoi": "0",
+  "Evenement": "0",
+  "round": "0",
   "equipe": [
-    { "nom": "equipe1" },
-    { "nom": "equipe2" },
-    { "nom": "equipe3" },
-    { "nom": "equipe4" },
-    { "nom": "equipe5" },
-    { "nom": "equipe6" },
-    { "nom": "equipe7" },
-    { "nom": "equipe8" },
-    { "nom": "equipe9" },
-    { "nom": "equipe10" }
+    { "inscrid": "0", "nom": "equipe1" },
+    { "inscrid": "1", "nom": "equipe2" },
+    { "inscrid": "2", "nom": "equipe3" },
+    { "inscrid": "3", "nom": "equipe4" },
+    { "inscrid": "4", "nom": "equipe5" },
+    { "inscrid": "5", "nom": "equipe6" },
+    { "inscrid": "6", "nom": "equipe7" },
+    { "inscrid": "7", "nom": "equipe8" },
+    { "inscrid": "8", "nom": "equipe9" },
+    { "inscrid": "9", "nom": "equipe10" }
   ]
 }

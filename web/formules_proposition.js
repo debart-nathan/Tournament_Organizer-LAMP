@@ -89,7 +89,7 @@ function allDiviser() {
 function strangePoule(nbp, nbq, rst, prop) {
 	var opt = false;
 	var j = 0;
-	while (opt == false && nbp != 0) {
+	while (!(opt) && nbp != 0) {
 		if (rst % (nbq - 1) == 0 && (nbq - 1) != 1) {
 			opt = true;
 		}
@@ -100,7 +100,7 @@ function strangePoule(nbp, nbq, rst, prop) {
 		}
 	}
 
-	if (opt == true) {
+	if (opt) {
 		var radio = createRadio(nbp + "x" + nbq + "+" + (rst / (nbq - 1)) + "x" + (nbq - 1));
 		if (prop.querySelector("[id='" + radio.id + "']") == null) {
 			prop.appendChild(radio);
@@ -191,8 +191,7 @@ function echange(node1_id, node2_id) {
 
 function createPoule() {
 	var formule = document.querySelector('input[name="formule"]:checked')
-	var currentNiveau = 0
-	var currentTournoi = 0
+	var currentNiveau = getElementById('round').value
 	var setganiant = document.getElementById("setganiant").value
 	var pointganiant = document.getElementById("pointganiant").value
 
@@ -220,22 +219,22 @@ function createPoule() {
 		return
 	}
 	var tabFormule = formule.id.split("+")
-	if (!(jsonLevel.tournoi[currentTournoi].hasOwnProperty("pouleTournoi"))) {
-		jsonLevel.tournoi[currentTournoi].pouleTournoi = new Array
-	}
-	jsonLevel.tournoi[currentTournoi].pouleTournoi.push({ "niveau": currentNiveau })
-	var currentPouleTournoi = jsonLevel.tournoi[currentTournoi].pouleTournoi.length - 1
-	jsonLevel.tournoi[currentTournoi].pouleTournoi[currentPouleTournoi].setganiant = setganiant
-	jsonLevel.tournoi[currentTournoi].pouleTournoi[currentPouleTournoi].pointganiant = pointganiant
-	if (!(jsonLevel.tournoi[currentTournoi].pouleTournoi[currentPouleTournoi].hasOwnProperty("poule"))) {
-		jsonLevel.tournoi[currentTournoi].pouleTournoi[currentPouleTournoi].poule = new Array
+
+	jsonLevel.pouleTournoi = new Array
+
+	jsonLevel.pouleTournoi.push({ "niveau": currentNiveau })
+	var currentPouleTournoi = jsonLevel.pouleTournoi.length - 1
+	jsonLevel.pouleTournoi[currentPouleTournoi].setganiant = setganiant
+	jsonLevel.pouleTournoi[currentPouleTournoi].pointganiant = pointganiant
+	if (!(jsonLevel.pouleTournoi[currentPouleTournoi].hasOwnProperty("poule"))) {
+		jsonLevel.pouleTournoi[currentPouleTournoi].poule = new Array
 	}
 
 	for (var i = 0; i < tabFormule.length; i++) {
 		tabFormule[i] = tabFormule[i].split("x");
 		for (var j = 0; j < tabFormule[i][0]; j++) {
 
-			jsonLevel.tournoi[currentTournoi].pouleTournoi[currentPouleTournoi].poule.push({ "nbequipe": tabFormule[i][1] })
+			jsonLevel.pouleTournoi[currentPouleTournoi].poule.push({ "nbequipe": tabFormule[i][1] })
 		}
 	}
 	console.log(jsonLevel) //TODO : Replace by call to repartTeam
@@ -246,7 +245,7 @@ function createPoule() {
 
 async function getJSON() {
 
-	await fetch("./data/Level.JSON") //TODO : Replace by Get from server
+	await fetch("./data/Level.JSON") //TODO : Replace by Get from server with arg {"tournoi": getElementById('tournoi').value,"Evenement": getElementById('round').value,"Event": getElementById('round').value}
 		.then(response => response.json()).then(data => jsonLevel = data).catch((error) => console.log(error));
 	allDiviser()
 }
