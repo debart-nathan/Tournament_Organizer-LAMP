@@ -1,0 +1,20 @@
+{
+  "tournoi": [
+    {
+      "idevent": 3,
+      "nomTournoi": "litleCup"
+    }
+  ],
+  "equipe": [
+    { "nom": "equipe1" },
+    { "nom": "equipe2" },
+    { "nom": "equipe3" },
+    { "nom": "equipe4" },
+    { "nom": "equipe5" },
+    { "nom": "equipe6" },
+    { "nom": "equipe7" },
+    { "nom": "equipe8" },
+    { "nom": "equipe9" },
+    { "nom": "equipe10" }
+  ]
+}
