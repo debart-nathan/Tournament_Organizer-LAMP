@@ -220,21 +220,18 @@ function createPoule() {
 	}
 	var tabFormule = formule.id.split("+")
 
-	jsonLevel.pouleTournoi = new Array
-
-	jsonLevel.pouleTournoi.push({ "niveau": currentNiveau })
-	var currentPouleTournoi = jsonLevel.pouleTournoi.length - 1
-	jsonLevel.pouleTournoi[currentPouleTournoi].setganiant = setganiant
-	jsonLevel.pouleTournoi[currentPouleTournoi].pointganiant = pointganiant
-	if (!(jsonLevel.pouleTournoi[currentPouleTournoi].hasOwnProperty("poule"))) {
-		jsonLevel.pouleTournoi[currentPouleTournoi].poule = new Array
+	
+	jsonLevel.setganiant = setganiant
+	jsonLevel.pointganiant = pointganiant
+	if (!(jsonLevel.hasOwnProperty("poule"))) {
+		jsonLevel.poule = new Array
 	}
 
 	for (var i = 0; i < tabFormule.length; i++) {
 		tabFormule[i] = tabFormule[i].split("x");
 		for (var j = 0; j < tabFormule[i][0]; j++) {
 
-			jsonLevel.pouleTournoi[currentPouleTournoi].poule.push({ "nbequipe": tabFormule[i][1] })
+			jsonLevel.poule.push({ "nbequipe": tabFormule[i][1] })
 		}
 	}
 	console.log(jsonLevel) //TODO : Replace by call to repartTeam
