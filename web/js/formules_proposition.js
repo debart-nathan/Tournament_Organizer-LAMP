@@ -1,19 +1,23 @@
+
+
 var jsonLevel;
 
 
 function allDiviser() {
 	var prop = document.getElementById("propositions");
 
-	prop.innerHTML = "";
+	while (prop.firstChild) {
+		prop.removeChild(prop.firstChild);
+	}
 
-	if (!("equipe" in jsonLevel)) {
+	if (!("teams" in jsonLevel)) {
 		prop.innerHTML = "aucune equipe";
 		return
 	}
-	var nb = jsonLevel.equipe.length;
+	var nb = jsonLevel.teams.length;
 
 	if (nb == 1) {
-		document.prop.innerHTML = "qu'un participant le gagnant par default est donc " + jsonLevel.equipe
+		document.prop.innerHTML = "qu'un participant le gagnant par default est donc " + jsonLevel.teams.name
 		return
 	}
 	var ulpr = document.createElement("ul")
@@ -191,7 +195,6 @@ function echange(node1_id, node2_id) {
 
 function createPoule() {
 	var formule = document.querySelector('input[name="formule"]:checked')
-	var currentNiveau = getElementById('round').value
 	var setganiant = document.getElementById("setganiant").value
 	var pointganiant = document.getElementById("pointganiant").value
 
@@ -220,7 +223,7 @@ function createPoule() {
 	}
 	var tabFormule = formule.id.split("+")
 
-	
+
 	jsonLevel.setganiant = setganiant
 	jsonLevel.pointganiant = pointganiant
 	if (!(jsonLevel.hasOwnProperty("poule"))) {
@@ -234,7 +237,7 @@ function createPoule() {
 			jsonLevel.poule.push({ "nbequipe": tabFormule[i][1] })
 		}
 	}
-	console.log(jsonLevel) //TODO : Replace by call to repartTeam
+	repartTeams()
 }
 
 
@@ -248,3 +251,113 @@ async function getJSON() {
 }
 
 getJSON()
+
+
+/*
+*
+*				Teams Repartition
+*
+*/
+
+
+
+function repartTeams() {
+
+	repartSerpentin()
+	var root = document.getElementById("dynamique")
+	while (root.firstChild) {
+		root.removeChild(root.firstChild);
+	}
+
+	var dynTools = document.createElement("div")
+	dynTools.id = "dynTools"
+	var poules = document.createElement("div")
+	poules.id = "poules"
+	var dynNavigation = document.createElement("div")
+	dynNavigation.id = "dynNavigation"
+
+	root.appendChild(dynTools)
+	root.appendChild(poules)
+	root.appendChild(dynNavigation)
+
+
+	//[DYNTOOLS]
+	var resetbutton = document.createElement('button')
+	resetbutton.type = 'button'
+	resetbutton.innerHTML = "Reset Teams distribution"
+	resetbutton.onclick = resetTd
+
+	resetbutton.id = "resetTd"
+
+	dynTools.appendChild(resetbutton)
+
+	//[POULES]
+	setPoules()
+
+	//[dynNavigation]
+
+
+}
+
+function repartSerpentin() {
+	var team_index = 0
+	for (const poule of jsonLevel.poule) {
+		poule.teamIid= new Array()
+		poule.teamIid.length=poule.nbequipe
+		for (var i = 0; i < poule.nbequipe; i++) {
+			poule.teamIid[i]=team_index
+			team_index++
+		}
+	}
+}
+
+function setPoules() {
+	var rootp = document.getElementById("poules")
+	while (rootp.firstChild) {
+		rootp.removeChild(rootp.firstChild);
+	}
+	for (var pi = 0; pi < jsonLevel.poule.length; pi++) {
+		var poule = document.createElement('ul')
+		poule.id = "p" + pi
+		poule.class='poule'
+		poule.value = pi
+		rootp.appendChild(poule)
+		for (var id=0;id<jsonLevel.poule[pi].teamIid.length;id++ ) {
+			var teamId=jsonLevel.poule[pi].teamIid[id];
+			var team = jsonLevel.teams[teamId]
+			var lit = document.createElement('li')
+			lit.id = "t" + team.inscrid
+			lit.innerHTML = team.name
+			lit.draggable = "true"
+			//TODO: rework drag and drop
+			lit.value = id
+			poule.appendChild(lit)
+
+		}
+
+
+	}
+}
+
+function resetTd() {
+	repartSerpentin() 
+	setPoules()
+}
+
+function echangeTeam(ev) {
+	var team1DOMid = ev.target;
+	var team2DOMid = ev.dataTransfer.getData('target_id');
+	var team1DOM = document.getElementById(team1DOMid)
+	var team2DOM = document.getElementById(team2DOMid)
+
+	var poule1 = team1DOM.parentNode.value
+	var poule2 = team2DOM.parentNode.value
+
+	var tempt = jsonLevel.poule[poule1].teamIid[team1DOM.value]
+	jsonLevel.poule[poule1].teamIid[team1DOM.value] = jsonLevel.poule[poule2].teamIid[team2DOM.value]
+	jsonLevel.poule[poule2].teamIid[team2DOM.value] = tempt
+
+	var tempv = team1DOM.value
+	team1DOM.value = team2DOM.value
+	team2DOM.value = tempv
+}
