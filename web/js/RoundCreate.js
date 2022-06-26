@@ -1,14 +1,16 @@
 
-
+/*
+*Formule proposition
+*
+*
+*/
 var jsonLevel;
 
 
 function allDiviser() {
 	var prop = document.getElementById("propositions");
 
-	while (prop.firstChild) {
-		prop.removeChild(prop.firstChild);
-	}
+	prop.innerHTML="";
 
 	if (!("teams" in jsonLevel)) {
 		prop.innerHTML = "aucune equipe";
@@ -261,6 +263,8 @@ getJSON()
 
 
 
+
+
 function repartTeams() {
 
 	repartSerpentin()
@@ -271,7 +275,7 @@ function repartTeams() {
 
 	var dynTools = document.createElement("div")
 	dynTools.id = "dynTools"
-	var poules = document.createElement("div")
+	var poules = document.createElement("article")
 	poules.id = "poules"
 	var dynNavigation = document.createElement("div")
 	dynNavigation.id = "dynNavigation"
@@ -319,7 +323,8 @@ function setPoules() {
 	for (var pi = 0; pi < jsonLevel.poule.length; pi++) {
 		var poule = document.createElement('ul')
 		poule.id = "p" + pi
-		poule.class='poule'
+		
+		
 		poule.value = pi
 		rootp.appendChild(poule)
 		for (var id=0;id<jsonLevel.poule[pi].teamIid.length;id++ ) {
@@ -328,8 +333,11 @@ function setPoules() {
 			var lit = document.createElement('li')
 			lit.id = "t" + team.inscrid
 			lit.innerHTML = team.name
-			lit.draggable = "true"
-			//TODO: rework drag and drop
+			lit.draggable=true;
+			lit.addEventListener("dragstart" ,drag )
+			lit.addEventListener("dragover",allowdrop)
+			lit.addEventListener("drop",drop)
+			
 			lit.value = id
 			poule.appendChild(lit)
 
@@ -344,20 +352,24 @@ function resetTd() {
 	setPoules()
 }
 
-function echangeTeam(ev) {
-	var team1DOMid = ev.target;
-	var team2DOMid = ev.dataTransfer.getData('target_id');
-	var team1DOM = document.getElementById(team1DOMid)
-	var team2DOM = document.getElementById(team2DOMid)
+/*
+	Drag and Drop
+*/
+function drag(ev){
+	ev.dataTransfer.setData("childID", ev.target.id);
+}
 
-	var poule1 = team1DOM.parentNode.value
-	var poule2 = team2DOM.parentNode.value
+function allowdrop(ev){
+	ev.preventDefault()
+	ev.dataTransfer.dropEffect = "move";
+}
 
-	var tempt = jsonLevel.poule[poule1].teamIid[team1DOM.value]
-	jsonLevel.poule[poule1].teamIid[team1DOM.value] = jsonLevel.poule[poule2].teamIid[team2DOM.value]
-	jsonLevel.poule[poule2].teamIid[team2DOM.value] = tempt
+function drop(ev){
+	ev.preventDefault()
+	const node2 = document.getElementById( ev.dataTransfer.getData("childID"))
+	const afterNode2 = node2.nextElementSibling;
+	const parent = node2.parentNode;
+    ev.target.replaceWith(node2);
+    parent.insertBefore(ev.target, afterNode2);
 
-	var tempv = team1DOM.value
-	team1DOM.value = team2DOM.value
-	team2DOM.value = tempv
 }
