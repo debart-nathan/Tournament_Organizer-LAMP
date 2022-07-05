@@ -2,16 +2,16 @@
   "tournoi": "0",
   "Evenement": "0",
   "round": "0",
-  "equipe": [
-    { "inscrid": "0", "nom": "equipe1" },
-    { "inscrid": "1", "nom": "equipe2" },
-    { "inscrid": "2", "nom": "equipe3" },
-    { "inscrid": "3", "nom": "equipe4" },
-    { "inscrid": "4", "nom": "equipe5" },
-    { "inscrid": "5", "nom": "equipe6" },
-    { "inscrid": "6", "nom": "equipe7" },
-    { "inscrid": "7", "nom": "equipe8" },
-    { "inscrid": "8", "nom": "equipe9" },
-    { "inscrid": "9", "nom": "equipe10" }
+  "teams": [
+    { "inscrid": "0", "name": "equipe1" },
+    { "inscrid": "1", "name": "equipe2" },
+    { "inscrid": "2", "name": "equipe3" },
+    { "inscrid": "3", "name": "equipe4" },
+    { "inscrid": "4", "name": "equipe5" },
+    { "inscrid": "5", "name": "equipe6" },
+    { "inscrid": "6", "name": "equipe7" },
+    { "inscrid": "7", "name": "equipe8" },
+    { "inscrid": "8", "name": "equipe9" },
+    { "inscrid": "9", "name": "equipe10" }
   ]
 }
