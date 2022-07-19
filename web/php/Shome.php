@@ -6,6 +6,12 @@
             case "getEv":
                 echo getEv();
                 break;
+            case "getTo":
+                echo getTo();
+                break;
+            case "getEvbyId":
+                getEvbyId();
+                break;
             default:
                 echo "error";
         }
@@ -16,4 +22,12 @@
         return json_encode($ar);
     }
 
-?>
+    function getTo(){
+        $ar=[ "1"=>["title"=>"a Title"]];
+        return json_encode($ar);
+    }
+
+    function getEvById(){
+        $ar=[ "title"=>"a Title"];
+        return json_encode($ar);
+    }
